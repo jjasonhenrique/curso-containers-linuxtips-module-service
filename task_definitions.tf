@@ -9,7 +9,7 @@ resource "aws_ecs_task_definition" "main" {
   memory = var.service_memory
 
   execution_role_arn = aws_iam_role.service_execution_role.arn
-  task_role_arn      = aws_iam_role.service_execution_role.arn
+  task_role_arn      = var.service_task_execution_role
 
   container_definitions = jsonencode([
     {
@@ -20,18 +20,20 @@ resource "aws_ecs_task_definition" "main" {
 
       essential = true
 
-      portMappings = [{
-        containerPort = var.service_port
-        hostPort      = var.service_port
-        protocol      = "tcp"
-      }]
+      portMappings = [
+        {
+          containerPort = var.service_port
+          hostPort      = var.service_port
+          protocol      = "tcp"
+        },
+      ]
 
       logConfiguration = {
-        logDriver = "awslog"
+        logDriver = "awslogs"
         options = {
           awslogs-group     = aws_cloudwatch_log_group.main.id
           awslogs-region    = var.region
-          aws-stream-prefix = var.service_name
+          awslogs-stream-prefix = var.service_name
         }
       }
 
