@@ -48,9 +48,17 @@ variable "service_healthcheck" {
   description = "Configuração do health check do serviço, incluindo caminho e protocolo."
 }
 
+#variable "service_launch_type" {
+#  type        = string
+#  description = "Tipo de lançamento para o serviço no ECS, como 'FARGATE' ou 'EC2'."
+#}
+
 variable "service_launch_type" {
-  type        = string
-  description = "Tipo de lançamento para o serviço no ECS, como 'FARGATE' ou 'EC2'."
+  type        = list(object({
+    capacity_provider = string
+    weight            = number
+  }))
+  description = "Tipo de lançamento para o serviço no ECS, como 'FARGATE' ou 'FARGATE_SPOT'."
 }
 
 variable "service_task_count" {
@@ -203,3 +211,4 @@ variable "scale_tracking_requests" {
   description = "Número alvo de solicitações por segundo (TPS) para o rastreamento de escala."
   default     = 0
 }
+
