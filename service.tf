@@ -18,7 +18,7 @@ resource "aws_ecs_service" "main" {
 
   ordered_placement_strategy {
     type = "spread"
-    field = "attribute:ecs:availability-zone"
+    field = "attribute:ecs.availability-zone"
   }
 
   network_configuration {
