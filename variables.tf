@@ -61,6 +61,11 @@ variable "service_launch_type" {
   description = "Tipo de lançamento para o serviço no ECS, como 'FARGATE' ou 'FARGATE_SPOT'."
 }
 
+variable "container_image" {
+  type = string
+  description                   = "Imagem com tag para deployment da aplicacao no ECS"  
+}
+
 variable "service_task_count" {
   type        = number
   description = "Número de instâncias da tarefa a serem executadas simultaneamente no serviço."
