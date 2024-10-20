@@ -243,3 +243,7 @@ variable "efs_volumes" {
   default = []  
 }
 
+variable "service_discovery_namespace" {
+  default = null
+}
+
