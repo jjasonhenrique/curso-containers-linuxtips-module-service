@@ -102,6 +102,7 @@ variable "secrets" {
 
 variable "capabilities" {
   type        = list(string)
+  default = []
   description = "Lista de capacidades necessárias para a execução do serviço, como 'CAP_SYS_ADMIN' para recursos Linux específicos."
 }
 
