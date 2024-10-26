@@ -28,6 +28,36 @@ variable "service_port" {
   description = "Porta na qual o serviço estará acessível."
 }
 
+variable "service_protocol" {
+  type        = string
+  default     = null
+}
+
+variable "protocol" {
+  type = string
+  default = "tcp"  
+}
+
+variable "service_connect_name" {
+  type = string
+  default = "null"  
+}
+
+variable "service_connect_arn" {
+  type = string
+  default = null
+}
+
+variable "use_service_connect" {
+  type = bool
+  default = false
+}
+
+variable "use_lb" {
+  type = bool
+  default = true 
+}
+
 variable "service_cpu" {
   type        = number
   description = "Quantidade de CPU alocada para o serviço, especificada em unidades de CPU do ECS."
@@ -78,6 +108,7 @@ variable "service_hosts" {
 
 variable "service_listener" {
   type        = string
+  default     = null
   description = "ARN do listener do Application Load Balancer que será usado pelo serviço."
 }
 
