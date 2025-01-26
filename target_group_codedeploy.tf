@@ -21,6 +21,8 @@ resource "aws_alb_target_group" "blue" {
   lifecycle {
     create_before_destroy = false
   }
+
+  depends_on = [ aws_alb_listener_rule.codedeploy ]
 }
 
 resource "aws_alb_target_group" "green" {
@@ -46,4 +48,6 @@ resource "aws_alb_target_group" "green" {
   lifecycle {
     create_before_destroy = false
   }
+
+  depends_on = [ aws_alb_listener_rule.codedeploy ]
 }

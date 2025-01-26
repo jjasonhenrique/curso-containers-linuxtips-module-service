@@ -21,4 +21,6 @@ resource "aws_alb_target_group" "main" {
   lifecycle {
     create_before_destroy = false
   }
+
+  depends_on = [ aws_alb_listener_rule.main ]
 }
