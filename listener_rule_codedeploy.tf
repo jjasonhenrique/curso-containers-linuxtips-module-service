@@ -6,16 +6,16 @@ resource "aws_alb_listener_rule" "codedeploy" {
   action {
     type = "forward"
     forward {
-			target_group {
-				arn = aws_alb_target_group.blue[count.index].arn
-				weight = 100
-    	}
+      target_group {
+        arn    = aws_alb_target_group.blue[count.index].arn
+        weight = 100
+      }
 
-			target_group {
-				arn = aws_alb_target_group.green[count.index].arn
-				weight = 0
-    	}
-		}      
+      target_group {
+        arn    = aws_alb_target_group.green[count.index].arn
+        weight = 0
+      }
+    }
   }
 
   condition {
@@ -24,9 +24,9 @@ resource "aws_alb_listener_rule" "codedeploy" {
     }
   }
 
-	lifecycle {
-		ignore_changes = [ 
-			action
-		 ]
-	}
+  lifecycle {
+    ignore_changes = [
+      action
+    ]
+  }
 }

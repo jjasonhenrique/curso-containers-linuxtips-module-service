@@ -18,8 +18,8 @@ resource "aws_ecs_task_definition" "main" {
       name = volume.value.volume_name
 
       efs_volume_configuration {
-        file_system_id = volume.value.file_system_id
-        root_directory = volume.value.file_system_root
+        file_system_id     = volume.value.file_system_id
+        root_directory     = volume.value.file_system_root
         transit_encryption = "ENABLED"
       }
     }
@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "main" {
 
       portMappings = [
         {
-          name = var.service_name
+          name          = var.service_name
           containerPort = var.service_port
           hostPort      = var.service_port
           protocol      = var.protocol
@@ -47,8 +47,8 @@ resource "aws_ecs_task_definition" "main" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group     = aws_cloudwatch_log_group.main.id
-          awslogs-region    = var.region
+          awslogs-group         = aws_cloudwatch_log_group.main.id
+          awslogs-region        = var.region
           awslogs-stream-prefix = var.service_name
         }
       }

@@ -1,13 +1,13 @@
 resource "aws_codedeploy_app" "main" {
-  count = var.deployment_controller == "CODE_DEPLOY" ? 1 : 0
-  name = format("%s-%s", var.cluster_name, var.service_name)
+  count            = var.deployment_controller == "CODE_DEPLOY" ? 1 : 0
+  name             = format("%s-%s", var.cluster_name, var.service_name)
   compute_platform = "ECS"
 }
 
 resource "aws_codedeploy_deployment_group" "main" {
   count = var.deployment_controller == "CODE_DEPLOY" ? 1 : 0
 
-  app_name = aws_codedeploy_app.main[count.index].name
+  app_name              = aws_codedeploy_app.main[count.index].name
   deployment_group_name = aws_codedeploy_app.main[count.index].name
 
   deployment_config_name = var.codedeploy_strategy
@@ -16,17 +16,17 @@ resource "aws_codedeploy_deployment_group" "main" {
 
   ecs_service {
     cluster_name = var.cluster_name
-    service_name = var.service_name    
+    service_name = var.service_name
   }
 
   deployment_style {
     deployment_option = var.codedeploy_deployment_option
-    deployment_type = var.codedeploy_deployment_type
+    deployment_type   = var.codedeploy_deployment_type
   }
 
   blue_green_deployment_config {
     terminate_blue_instances_on_deployment_success {
-      action = "TERMINATE"
+      action                           = "TERMINATE"
       termination_wait_time_in_minutes = var.codedeploy_termination_wait_time_in_minutes
     }
 
@@ -54,14 +54,14 @@ resource "aws_codedeploy_deployment_group" "main" {
 
   auto_rollback_configuration {
     enabled = true
-    events = ["DEPLOYMENT_FAILURE", "DEPLOYMENT_STOP_ON_ALARM"]
+    events  = ["DEPLOYMENT_FAILURE", "DEPLOYMENT_STOP_ON_ALARM"]
   }
 
   alarm_configuration {
     enabled = var.codedeploy_rollback_alarm
 
     alarms = var.codedeploy_rollback_alarm ? [
-       aws_cloudwatch_metric_alarm.rollback_alarm[count.index].id
-    ] : [ ]
+      aws_cloudwatch_metric_alarm.rollback_alarm[count.index].id
+    ] : []
   }
 }

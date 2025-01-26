@@ -12,17 +12,17 @@ resource "aws_ecs_service" "main" {
     for_each = var.service_discovery_namespace != null ? [var.service_name] : []
 
     content {
-      registry_arn = aws_service_discovery_service.main[0].arn
+      registry_arn   = aws_service_discovery_service.main[0].arn
       container_name = service_registries.value
     }
   }
- 
+
 
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 100
 
   deployment_controller {
-    type = var.deployment_controller 
+    type = var.deployment_controller
   }
 
   deployment_circuit_breaker {
@@ -35,23 +35,23 @@ resource "aws_ecs_service" "main" {
 
     content {
       capacity_provider = capacity_provider_strategy.value.capacity_provider
-      weight = capacity_provider_strategy.value.weight
+      weight            = capacity_provider_strategy.value.weight
     }
   }
 
   dynamic "service_connect_configuration" {
     for_each = var.use_service_connect ? [var.service_connect_name] : []
-    
+
     content {
-      enabled = var.use_service_connect
+      enabled   = var.use_service_connect
       namespace = var.service_connect_name
 
       service {
-        port_name = var.service_name
+        port_name      = var.service_name
         discovery_name = var.service_name
 
         client_alias {
-          port = var.service_port
+          port     = var.service_port
           dns_name = format("%s.%s", var.service_name, var.service_connect_name)
 
         }
@@ -62,9 +62,9 @@ resource "aws_ecs_service" "main" {
   dynamic "ordered_placement_strategy" {
     for_each = var.service_launch_type == "EC2" ? [1] : []
     content {
-      type = "spread"
+      type  = "spread"
       field = "attribute:ecs.availability-zone"
-    }    
+    }
   }
 
   network_configuration {
@@ -78,7 +78,7 @@ resource "aws_ecs_service" "main" {
 
   dynamic "load_balancer" {
     for_each = var.use_lb ? [1] : []
-    
+
     content {
       target_group_arn = (var.use_lb && var.deployment_controller == "CODE_DEPLOY") ? aws_alb_target_group.blue[0].arn : aws_alb_target_group.main[0].arn
       container_name   = var.service_name
