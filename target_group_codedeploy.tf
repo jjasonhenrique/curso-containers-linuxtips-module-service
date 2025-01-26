@@ -1,7 +1,7 @@
 resource "aws_alb_target_group" "blue" {
   count = (var.use_lb && var.deployment_controller == "CODE_DEPLOY") ? 1 : 0
 
-  name = substr(sha256(format("blue-%s%s", var.service_name, var.cluster_name )), 0, 32)
+  name   = substr(sha256(format("blue-%s%s", var.service_name, var.cluster_name)), 0, 32)
   port   = var.service_port
   vpc_id = var.vpc_id
 
@@ -21,12 +21,14 @@ resource "aws_alb_target_group" "blue" {
   lifecycle {
     create_before_destroy = false
   }
+
+  depends_on = [aws_alb_listener_rule.codedeploy]
 }
 
 resource "aws_alb_target_group" "green" {
   count = (var.use_lb && var.deployment_controller == "CODE_DEPLOY") ? 1 : 0
 
-  name = substr(sha256(format("green-%s%s", var.service_name, var.cluster_name )), 0, 32)
+  name   = substr(sha256(format("green-%s%s", var.service_name, var.cluster_name)), 0, 32)
   port   = var.service_port
   vpc_id = var.vpc_id
 
@@ -46,4 +48,6 @@ resource "aws_alb_target_group" "green" {
   lifecycle {
     create_before_destroy = false
   }
+
+  depends_on = [aws_alb_listener_rule.codedeploy]
 }

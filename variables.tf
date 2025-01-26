@@ -29,33 +29,33 @@ variable "service_port" {
 }
 
 variable "service_protocol" {
-  type        = string
-  default     = null
+  type    = string
+  default = null
 }
 
 variable "protocol" {
-  type = string
-  default = "tcp"  
+  type    = string
+  default = "tcp"
 }
 
 variable "service_connect_name" {
-  type = string
-  default = "null"  
+  type    = string
+  default = "null"
 }
 
 variable "service_connect_arn" {
-  type = string
+  type    = string
   default = null
 }
 
 variable "use_service_connect" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "use_lb" {
-  type = bool
-  default = true 
+  type    = bool
+  default = true
 }
 
 variable "service_cpu" {
@@ -84,7 +84,7 @@ variable "service_healthcheck" {
 #}
 
 variable "service_launch_type" {
-  type        = list(object({
+  type = list(object({
     capacity_provider = string
     weight            = number
   }))
@@ -92,8 +92,8 @@ variable "service_launch_type" {
 }
 
 variable "container_image" {
-  type = string
-  description                   = "Imagem com tag para deployment da aplicacao no ECS"  
+  type        = string
+  description = "Imagem com tag para deployment da aplicacao no ECS"
 }
 
 variable "service_task_count" {
@@ -113,72 +113,72 @@ variable "service_listener" {
 }
 
 variable "deployment_controller" {
-  type = string
+  type    = string
   default = "ECS"
 }
 
 variable "codedeploy_strategy" {
-  type = string
+  type    = string
   default = "CodeDeployDefault.ECSAllAtOnce"
 }
 
 variable "codedeploy_deployment_option" {
-  type = string
-  default = "WITH_TRAFFIC_CONTROL" 
+  type    = string
+  default = "WITH_TRAFFIC_CONTROL"
 }
 
 variable "codedeploy_deployment_type" {
-  type = string
-  default = "BLUE_GREEN" 
+  type    = string
+  default = "BLUE_GREEN"
 }
 
 variable "codedeploy_termination_wait_time_in_minutes" {
-  type = number
-  default = 2 
+  type    = number
+  default = 2
 }
 
 variable "codedeploy_rollback_alarm" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "codedeploy_rollback_error_threshold" {
-  type = number
+  type    = number
   default = 10
 }
 
 variable "codedeploy_rollback_error_period" {
-  type = number
-  default = 60 
+  type    = number
+  default = 60
 }
 
 variable "codedeploy_rollback_error_evaluation_period" {
-  type = number
+  type    = number
   default = 1
 }
 
 variable "environment_variables" {
-  type        = list(object({
+  type = list(object({
     name : string
-    value: string
+    value : string
   }))
   description = "Lista de variáveis de ambiente que serão passadas para o serviço."
-  default = []
+  default     = []
 }
 
 variable "secrets" {
-  type        = list(object({
+  type = list(object({
     name : string
-    valueFrom: string
+    valueFrom : string
 
   }))
   description = "Lista de secrets do parameter store ou secrets manager."
-  default = []
+  default     = []
 }
 
 variable "capabilities" {
   type        = list(string)
-  default = []
+  default     = []
   description = "Lista de capacidades necessárias para a execução do serviço, como 'CAP_SYS_ADMIN' para recursos Linux específicos."
 }
 
@@ -317,11 +317,11 @@ variable "efs_volumes" {
     read_only : bool
   }))
   description = "Volumes EFS existentes para serem montados nas tasks do ECS"
-  default = []  
+  default     = []
 }
 
 variable "service_discovery_namespace" {
   description = "Namespace ID do Service Discovery"
-  default = null
+  default     = null
 }
 
